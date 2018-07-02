@@ -60,7 +60,8 @@ class List():
 
         return tmp
 
-    def change_value(self, node, val):
+    def change_value(self, old, val):
+        node=self.search(old)
         node.value=val
 
     def print(self):
