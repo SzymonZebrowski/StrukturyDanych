@@ -1,26 +1,19 @@
 from Basic.List import List
-from Basic.Stack import Stack
 from Trees.BST import BST
 from Trees.BST import Node
-from Heaps.Heap import Heap
 
-H=[64,2,32,4,16,8, 5 ,21 ,512, -1, 15, 129, 123, 54, 23, 32]
+tree = BST()
+tree.add(5)
+tree.add(1)
+tree.add(12)
+tree.add(7)
+tree.add(8)
 
-heap=Heap(H)
-heap.print()
-print("\n")
-heap.build_heap()
-heap.print()
-print("\n")
-heap.heapsort()
-heap.print()
-print("\n")
-heap.pop()
-heap.pop()
-heap.pop()
-heap.pop()
-heap.push(666)
-heap.build_heap()
-heap.print()
+tree.inorder_print(tree.root)
+print()
+tree.postorder_print(tree.root)
+print()
+tree.preorder_print(tree.root)
+print()
 
 

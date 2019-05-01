@@ -5,6 +5,7 @@ class Node():
         self.left=None
         self.right=None
 
+
 class BST():
     def __init__(self):
         self.root=None
@@ -83,7 +84,7 @@ class BST():
         node=self.find(val)
         if(node==None):
             print("Nie ma takiego klucza")
-            return
+            return None
 
         if(node.left==None and node.right==None):
             if(node.parent.left==node):
@@ -105,9 +106,7 @@ class BST():
                     node.parent.right = node.left
                 else:
                     node.parent.left = node.left
-
-
-
+        return node
 
     def inorder_print(self, node):
         if(node!=None):
@@ -126,4 +125,3 @@ class BST():
             self.postorder_print(node.left)
             self.postorder_print(node.right)
             print(node.value, end=" ")
-
