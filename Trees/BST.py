@@ -1,19 +1,20 @@
-class Node():
+class BSTNode():
     def __init__(self, val):
         self.value=val
         self.parent=None
         self.left=None
         self.right=None
 
+
 class BST():
     def __init__(self):
         self.root=None
 
-    def add(self, val):
-        new=Node(val)
+    def add(self, val, node_func=BSTNode):
+        new=node_func(val)
         if(self.root==None):
             self.root=new
-            return
+            return new
 
         tmp=self.root
         while(True):
@@ -31,6 +32,7 @@ class BST():
                     tmp.left = new
                     new.parent = tmp
                     break
+        return new
 
     def find(self, val):
         tmp=self.root
