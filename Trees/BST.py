@@ -141,8 +141,6 @@ class BST():
                 node.left.parent = node.parent
         return node
 
-
-
     def inorder_print(self, node):
         if(node!=None):
             self.inorder_print(node.left)

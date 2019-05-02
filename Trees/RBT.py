@@ -92,9 +92,9 @@ class RBT(Trees.BST.BST):
         y.right = x
         x.parent = y
 
-    def delete(self, node):
-        #TODO
-        pass
+    def delete(self, val):
+        y = super().delete(val)
+        print(y.value,y.color)
 
 
     def inorder_print(self, node):
