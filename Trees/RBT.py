@@ -92,6 +92,10 @@ class RBT(Trees.BST.BST):
         y.right = x
         x.parent = y
 
+    def delete(self, node):
+        #TODO
+        pass
+
 
     def inorder_print(self, node):
         if(node!=None):

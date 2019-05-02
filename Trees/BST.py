@@ -79,8 +79,6 @@ class BST():
                 p = p.parent
         return p
 
-
-
     def delete(self, val):
         node=self.find(val)
         if(node==None):
