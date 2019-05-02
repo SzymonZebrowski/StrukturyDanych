@@ -79,6 +79,14 @@ class BST():
                 p = p.parent
         return p
 
+    def brother(self,node):
+        if node.parent!=None:
+            if node==node.parent.left:
+                return node.parent.right
+            else:
+                return node.parent.left
+        return None
+
     def max(self):
         if self.root == None:
             return

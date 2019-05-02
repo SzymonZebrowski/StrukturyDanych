@@ -57,6 +57,8 @@ class RBT(Trees.BST.BST):
                     self.left_rotate(x.parent.parent)
             self.root.color = BLACK
 
+    def change_color(self, x):
+        x.color = RED if x.color==BLACK else BLACK
 
     def left_rotate(self, x):
         y = x.right
@@ -93,8 +95,14 @@ class RBT(Trees.BST.BST):
         x.parent = y
 
     def delete(self, val):
-        y = super().delete(val)
-        print(y.value,y.color)
+        node = super().delete(val)
+        x = node
+        while x != self.root and self.get_color(x)==BLACK:
+            if self.get_color(self.brother(x))==RED:
+                self.change_color(self.brother(x))
+                self.change_color(x.parent)
+
+
 
 
     def inorder_print(self, node):
