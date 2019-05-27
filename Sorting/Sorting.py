@@ -36,17 +36,19 @@ def quick_sort(data):
 
 def counting_sort(data, minimum, maximum):
     histogram = [0 for _ in range(minimum, maximum+1)]
+    out = [0 for _ in range(len(data))]
 
     for i in range(len(data)):
         histogram[data[i]] += 1
 
-    index = 0
-    for i in range(minimum, maximum+1):
-        while histogram[i] > 0:
-            data[index] = i
-            histogram[i] -= 1
-            index += 1
+    for i in range(minimum+1, maximum+1):
+        histogram[i] += histogram[i-1]
 
+    for i in range(len(data)-1, -1, -1):
+        out[histogram[data[i]]-1] = data[i]
+        histogram[data[i]] -= 1
+
+    data = out
     return data
 
 
@@ -61,35 +63,25 @@ def radix_sort(data):
         for i in range(n):
             histogram[data[i]//exp % 10] += 1
 
-        # print(histogram)
-        # for i in range(1, 10):
-        #     histogram[i] += histogram[i-1]
-        # print(histogram)
-        # i = n - 1
-        # while i >= 0:
-        #     out[histogram[data[i]//exp % 10] - 1] = data[i]
-        #     histogram[data[i]//exp % 10] -= 1
-        #     i -= 1
 
+        for i in range(1, 10):
+            histogram[i] += histogram[i-1]
+        #now histogram[x] contains position in list at which the last occurence of 'x' will appear.
+        #for example
+        #   range : 0-5
+        #   data = [1,2,1,3,1,5,2,0,2,5]
+        #   prev_histogram = [1,3,3,1,0,2]
+        #   histogram = [1,4,7,8,8,10]
+        #histogram shows position
+        #
+        #
 
+        i = n - 1
+        while i >= 0:
+            out[histogram[data[i]//exp % 10] - 1] = data[i]
+            histogram[data[i]//exp % 10] -= 1
+            i -= 1
 
-        def find_first(data, n, r):
-            for i in range(0, len(data)):
-                if int('0'*len(repr(exp))+repr(data[i])[-r]) == n:
-                    return data[i]
-
-        index = 0
-        for i in range(0, 10):
-            while histogram[i] > 0:
-                x = find_first(data, i, len(repr(exp)))
-                print(f"i={i}, x={x}")
-                if x!=None:
-                    data.remove(x)
-                    out[index] = x
-                    index += 1
-                    histogram[i] -= 1
-                else:
-                    break
         data = out
         return data
 
