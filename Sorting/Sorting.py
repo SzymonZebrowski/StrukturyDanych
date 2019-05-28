@@ -66,7 +66,8 @@ def radix_sort(data):
 
         for i in range(1, 10):
             histogram[i] += histogram[i-1]
-        #now histogram[x] contains position in list at which the last occurence of 'x' will appear.
+        #now histogram[x] contains position in list at which the l
+        # ast occurence of 'x' will appear.
         #for example
         #   range : 0-5
         #   data = [1,2,1,3,1,5,2,0,2,5]
@@ -89,5 +90,40 @@ def radix_sort(data):
     while (maximum // e) > 0:
         data = counting_sort(data, e)
         e *= 10
+
+    return data
+
+
+def heap_sort(data):
+    n = len(data)
+
+    def left(i): return 2*i + 1
+    def right(i): return 2*(i+1)
+
+    def heapify(i, n):
+        print(data)
+        largest = i
+        l = left(i)
+        r = right(i)
+
+        if l < n and data[largest] < data[l]:
+            largest = l
+
+        if r < n and data[largest] < data[r]:
+            largest = r
+
+        if largest != i:
+            data[i], data[largest] = data[largest], data[i]
+
+            heapify(largest, n)
+
+    def build_heap():
+        for i in range(n//2, -1, -1):
+            heapify(i, n)
+
+    build_heap()
+    for i in range(n-1, 0, -1):
+        data[i], data[0] = data[0], data[i]
+        heapify(0, i)
 
     return data
