@@ -166,3 +166,43 @@ class BST():
             self.postorder_print(node.left)
             self.postorder_print(node.right)
             print(node.value, end=" ")
+
+    def level_order(self):
+        def count_layer(node):
+            layer = 0
+            while node.parent != None:
+                layer += 1
+                node = node.parent
+            return layer
+
+        def inorderer_add(node, data):
+            if node is not None:
+                inorderer_add(node.left, data)
+                data.append((node.value, count_layer(node)))
+                inorderer_add(node.right, data)
+
+        data = []
+
+        if self.root is None:
+            return []
+
+        inorderer_add(self.root, data)
+        data.sort(key = lambda x: x[1])
+        return data
+
+    def pretty_print(self):
+        data = self.level_order()
+        iterator = 0
+        max_level = max(data, key=lambda x: x[1])[1]
+        len_of_max_level = len(list(filter(lambda x: x[1] == max_level, data)))
+
+        while iterator < max_level+1:
+            string = ""
+            for i in list(filter(lambda x: x[1] == iterator, data)):
+                string += str(i[0]) + " "
+            print(string)
+            iterator += 1
+
+
+
+
