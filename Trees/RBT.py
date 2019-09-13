@@ -100,7 +100,7 @@ class RBT(Trees.BST.BST):
         while x != self.root and self.get_color(x)==BLACK:
             if self.get_color(self.brother(x))==RED:
                 self.change_color(self.brother(x))
-                self.change_color(x.parent)
+                self.change_color(x.parent)ą
 
 
 
