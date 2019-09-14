@@ -177,9 +177,16 @@ class BST():
 
         def inorderer_add(node, data):
             if node is not None:
-                inorderer_add(node.left, data)
+                if node.left is None:
+                    data.append(("x", count_layer(node) + 1))
+                else:
+                    inorderer_add(node.left, data)
                 data.append((node.value, count_layer(node)))
-                inorderer_add(node.right, data)
+
+                if node.right is None:
+                    data.append(("x", count_layer(node) + 1))
+                else:
+                    inorderer_add(node.right, data)
 
         data = []
 
@@ -187,20 +194,56 @@ class BST():
             return []
 
         inorderer_add(self.root, data)
-        data.sort(key = lambda x: x[1])
+        data.sort(key=lambda x: x[1])
         return data
 
     def pretty_print(self):
         data = self.level_order()
+        print(data)
         iterator = 0
         max_level = max(data, key=lambda x: x[1])[1]
-        len_of_max_level = len(list(filter(lambda x: x[1] == max_level, data)))
 
+        def rewrite_tree(data):
+            max_level = max(data, key=lambda x: x[1])[1]
+            data_list = ["o"] * (sum(2 ** i for i in range(max_level+1)))
+            print(data_list)
+            valuable_nodes = [i[0] for i in list(filter(lambda x: x[0] != "x", data))]
+            layer = 0
+            it = 0
+            curr_layer_it = 0
+            while layer < max_level + 1:
+                curr_layer_it = sum(2**i for i in range(layer))
+                bg_lvl = sum(2**i for i in range(layer))
+                max_curr_level = curr_layer_it + 2 ** layer
+                for i in range(curr_layer_it, max_curr_level):
+                    if (curr_layer_it-1 // 2) > 0 and curr_layer_it < max_curr_level and data_list[(curr_layer_it-1)//2] == "x":
+                        data_list[curr_layer_it] = "x"
+                        curr_layer_it += 1
+
+                    else:
+                        if len(data):
+                            node = data.pop(0)[0]
+                        else:
+                            node = "x"
+
+                        if node == "x":
+                            data_list[curr_layer_it] = "x"
+                        else:
+                            data_list[curr_layer_it] = node
+                        curr_layer_it += 1
+
+                print("Nodes in current layer: ", data_list[bg_lvl:max_curr_level])
+                print(data_list)
+                it += 2**layer
+                layer += 1
+
+            return data_list
+
+        data = rewrite_tree(data)
+
+        iterator = 0
         while iterator < max_level+1:
-            string = ""
-            for i in list(filter(lambda x: x[1] == iterator, data)):
-                string += str(i[0]) + " "
-            print(string)
+            print(data[2**iterator-1:2*2**iterator-1])
             iterator += 1
 
 
