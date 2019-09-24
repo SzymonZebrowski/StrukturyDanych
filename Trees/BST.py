@@ -197,43 +197,34 @@ class BST():
         data.sort(key=lambda x: x[1])
         return data
 
-    def pretty_print(self):
+    def draw(self):
         data = self.level_order()
-        print(data)
-        iterator = 0
+        if data == []:
+            return
         max_level = max(data, key=lambda x: x[1])[1]
 
         def rewrite_tree(data):
             max_level = max(data, key=lambda x: x[1])[1]
             data_list = ["o"] * (sum(2 ** i for i in range(max_level+1)))
-            print(data_list)
-            valuable_nodes = [i[0] for i in list(filter(lambda x: x[0] != "x", data))]
             layer = 0
             it = 0
-            curr_layer_it = 0
             while layer < max_level + 1:
                 curr_layer_it = sum(2**i for i in range(layer))
-                bg_lvl = sum(2**i for i in range(layer))
                 max_curr_level = curr_layer_it + 2 ** layer
                 for i in range(curr_layer_it, max_curr_level):
                     if (curr_layer_it-1 // 2) > 0 and curr_layer_it < max_curr_level and data_list[(curr_layer_it-1)//2] == "x":
                         data_list[curr_layer_it] = "x"
                         curr_layer_it += 1
-
                     else:
                         if len(data):
                             node = data.pop(0)[0]
                         else:
                             node = "x"
-
                         if node == "x":
                             data_list[curr_layer_it] = "x"
                         else:
                             data_list[curr_layer_it] = node
                         curr_layer_it += 1
-
-                print("Nodes in current layer: ", data_list[bg_lvl:max_curr_level])
-                print(data_list)
                 it += 2**layer
                 layer += 1
 
@@ -241,10 +232,31 @@ class BST():
 
         data = rewrite_tree(data)
 
+        #reverse data
+        iterator = max_level-1
+        rev_data = []
+        while iterator >= 0:
+            rev_data += data[2**iterator-1:2*2**iterator-1]
+            iterator -= 1
+
         iterator = 0
-        while iterator < max_level+1:
-            print(data[2**iterator-1:2*2**iterator-1])
+        beg = 0
+        lines = []
+        while iterator < max_level:
+            lvl = (rev_data[beg: beg + 2**(max_level - iterator - 1)])
+            padding = " " * (2**(iterator)-1)
+            string = ""
+            for i in lvl:
+                if i != "x":
+
+                    string += padding + str(i) + padding + " "*(2-len(str(i)))
+                else:
+                    string += padding + "  " + padding
+            lines.append(string)
+            beg += len(lvl)
             iterator += 1
+        for l in reversed(lines):
+            print(l)
 
 
 
